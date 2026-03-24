@@ -1,4 +1,4 @@
-name: CI Pipeline
+name: CI-CD Pipeline
 
 on:
   push:
@@ -10,35 +10,60 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout code
+      #  Checkout code
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2️⃣ Set up Docker Buildx
+      # Set up Docker Buildx
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      # 3️⃣ Login to Docker Hub
+      # Login to Docker Hub
       - name: Login to DockerHub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # 4️⃣ Build Docker image
+      #  Build Docker image
       - name: Build Docker Image
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/product-service:latest ./services/product-service
+          docker build -t siddartha96/product-service:latest ./services/product-service
 
-      # 5️⃣ Scan with Trivy
+      #  Scan with Trivy
       - name: Scan Image with Trivy
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: ${{ secrets.DOCKER_USERNAME }}/product-service:latest
+          image-ref: siddartha96/product-service:latest
           format: table
           exit-code: 0
 
-      # 6️⃣ Push Docker Image
+      #  Push Docker Image
       - name: Push Docker Image
         run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/product-service:latest
+          docker push siddartha96/product-service:latest
+
+  deploy:
+    needs: build-scan-push
+    runs-on: ubuntu-latest
+
+    steps:
+      #  Checkout repo
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      #  Setup kubectl
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v3
+
+      #  Configure Kubeconfig
+      - name: Set kubeconfig
+        run: |
+          echo "${{ secrets.KUBECONFIG }}" > kubeconfig.yaml
+          export KUBECONFIG=$PWD/kubeconfig.yaml
+
+      #  Deploy to Kubernetes
+      - name: Deploy to K8s
+        run: |
+          kubectl apply -f kubernetes/
+
