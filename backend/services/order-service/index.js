@@ -1,8 +1,12 @@
-const express = require("express");
-const app = express();
+require("dotenv").config();
 
-app.get("/", (req, res) => {
-  res.send("Order Service Running");
+const app = require("./src/app");
+const connectDB = require("./src/config/db");
+
+connectDB();
+
+const PORT = process.env.PORT || 5002;
+
+app.listen(PORT, () => {
+  console.log(`Order Service running on port ${PORT}`);
 });
-
-app.listen(3000, () => console.log("Server running on port 3000"));
