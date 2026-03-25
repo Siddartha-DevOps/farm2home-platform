@@ -1,3 +1,6 @@
+import { useState } from "react";
+import { useApp } from "../context/AppContext";
+
 function AuthPage({ setUser, setPage }) {
   const { addToast } = useApp();
   const [mode, setMode] = useState("login");
@@ -62,3 +65,4 @@ function AuthPage({ setUser, setPage }) {
     </div>
   );
 }
+export default AuthPage;

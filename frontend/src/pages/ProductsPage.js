@@ -1,3 +1,9 @@
+import { useState } from "react";
+import { useApp } from "../context/AppContext";
+import { PRODUCTS, CATEGORIES } from "../data/mockData";
+import ProductCard from "../components/ProductCard";
+import { fmt } from "../utilities/helpers";
+
 function ProductsPage({ addToCart }) {
   const { addToast } = useApp();
   const [category, setCategory] = useState("All");
@@ -71,3 +77,5 @@ function ProductsPage({ addToCart }) {
     </div>
   );
 }
+
+export default ProductsPage;

@@ -1,3 +1,7 @@
+import { useState } from "react";
+import { useApp } from "../context/AppContext";
+import { fmt, discounted } from "../utilities/helpers";
+
 function CheckoutPage({ cart, setCart, setPage }) {
   const { addToast } = useApp();
   const [step, setStep] = useState(1);
@@ -114,3 +118,4 @@ function CheckoutPage({ cart, setCart, setPage }) {
     </div>
   );
 }
+export default CheckoutPage;

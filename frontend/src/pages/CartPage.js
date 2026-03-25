@@ -1,3 +1,6 @@
+import { useApp } from "../context/AppContext";
+import { fmt, discounted } from "../utilities/helpers";
+
 function CartPage({ cart, setCart, setPage }) {
   const { addToast } = useApp();
   const total = cart.reduce((s, i) => s + discounted(i.price, i.discount) * i.qty, 0);
@@ -79,3 +82,4 @@ function CartPage({ cart, setCart, setPage }) {
     </div>
   );
 }
+export default CartPage;

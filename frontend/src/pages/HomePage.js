@@ -1,3 +1,7 @@
+import { useApp } from "../context/AppContext";
+import { PRODUCTS, FARMERS } from "../data/mockData";
+import ProductCard from "../components/ProductCard";
+
 function HomePage({ setPage, addToCart }) {
   const { addToast } = useApp();
   const featured = PRODUCTS.slice(0, 4);
@@ -122,3 +126,4 @@ function HomePage({ setPage, addToCart }) {
     </div>
   );
 }
+export default HomePage;
