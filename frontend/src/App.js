@@ -1,23 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import axios from "axios";
+
+import Navbar from "./components/Navbar";
+import ProductList from "./components/ProductList";
+import Cart from "./components/Cart";
 
 function App() {
+  const [cart, setCart] = useState(null);
+  const userId = "123";
+
+  const fetchCart = async () => {
+    const res = await axios.get(`http://localhost:5002/cart/${userId}`);
+    setCart(res.data);
+  };
+
+  const addToCart = async (product) => {
+    await axios.post("http://localhost:5002/cart/add", {
+      userId,
+      product: { ...product, quantity: 1 }
+    });
+    fetchCart();
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Navbar cartCount={cart?.items?.length || 0} />
+
+      <div style={{ padding: "20px" }}>
+        <ProductList onAdd={addToCart} />
+        <Cart />
+      </div>
     </div>
   );
 }
