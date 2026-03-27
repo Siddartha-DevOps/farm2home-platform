@@ -1,4 +1,4 @@
-version: "3.9"
+
 
 services:
   # ─── MongoDB ─────────────────────────────────────────────────────
@@ -9,7 +9,7 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
-      MONGO_INITDB_DATABASE: $(MONGO_DB)
+      MONGO_INITDB_DATABASE: ${MONGO_DB}
     ports:
       - "27017:27017"
     volumes:
@@ -22,6 +22,9 @@ services:
     image: redis:7-alpine
     container_name: farm2home-redis
     restart: unless-stopped
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD}@redis:6379
+    command: ["redis-server", "--requirepass", "${REDDIS_PASSWORD}"]
     ports:
       - "6379:6379"
     volumes:
