@@ -1,5 +1,19 @@
+# Environment variables (secrets)
+
 node_modules/
 **/node_modules/
+
 .env
+**/.env
+
+# Build folders
 dist/
 build/
+
+# Docker
+docker-compose.override.yml
+
+# Temporary files
+tmp/
+temp/
+*.tmp
