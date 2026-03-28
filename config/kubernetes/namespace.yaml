@@ -1,0 +1,8 @@
+# kubernetes/namespace.yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: farm2home
+  labels:
+    app: farm2home
+    environment: production

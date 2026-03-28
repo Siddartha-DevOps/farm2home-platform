@@ -1,14 +1,34 @@
 # Environment variables (secrets)
 
+# Dependencies
+
 node_modules/
 **/node_modules/
 
+# Environment files
 .env
 **/.env
+.env.local
+.env.production
 
 # Build folders
 dist/
 build/
+.next/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# OS
+.Ds_store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
 
 # Docker
 docker-compose.override.yml
@@ -17,3 +37,14 @@ docker-compose.override.yml
 tmp/
 temp/
 *.tmp
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Terraform state (contains secrets)
+terraform/*.tfstate
+terraform/*.tfstate.backup
+terraform/.terraform/
+terraform/.terraform.lock.hcl
+

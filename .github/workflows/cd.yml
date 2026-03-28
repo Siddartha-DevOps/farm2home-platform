@@ -1,0 +1,57 @@
+# .github/workflows/deploy.yml
+# Builds Docker images and pushes to Docker Hub on merge to main
+
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+
+env:
+  REGISTRY: docker.io
+  IMAGE_BACKEND:  ${{ secrets.DOCKERHUB_USERNAME }}/farm2home-backend
+  IMAGE_FRONTEND: ${{ secrets.DOCKERHUB_USERNAME }}/farm2home-frontend
+
+jobs:
+  build-and-push:
+    name: Build & push Docker images
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build & push backend image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend
+          push: true
+          tags: |
+            ${{ env.IMAGE_BACKEND }}:latest
+            ${{ env.IMAGE_BACKEND }}:${{ github.sha }}
+
+      - name: Build & push frontend image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./frontend
+          push: true
+          tags: |
+            ${{ env.IMAGE_FRONTEND }}:latest
+            ${{ env.IMAGE_FRONTEND }}:${{ github.sha }}
+
+  # Uncomment when K8s cluster is ready
+  # deploy-k8s:
+  #   needs: build-and-push
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Deploy to Kubernetes
+  #       run: |
+  #         kubectl set image deployment/backend backend=${{ env.IMAGE_BACKEND }}:${{ github.sha }}
+  #         kubectl set image deployment/frontend frontend=${{ env.IMAGE_FRONTEND }}:${{ github.sha }}
+
