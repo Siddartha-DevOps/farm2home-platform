@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useApp } from "../context/AppContext";
 
-function AuthPage({ setUser, setPage }) {
+function AuthPage({ setUser, setPage, initialRole = "customer", initialMode = "login" }) {
   const { addToast } = useApp();
-  const [mode, setMode] = useState("login");
-  const [role, setRole] = useState("customer");
+  const [mode, setMode] = useState(initialMode);
+  const [role, setRole] = useState(initialRole);
   const [form, setForm] = useState({ name: "", email: "", password: "", phone: "" });
 
   const submit = () => {

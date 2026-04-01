@@ -38,7 +38,7 @@ function HomePage({ setPage, addToCart }) {
               background: "#f9c74f", color: "#0d4f2e", padding: "16px 36px", borderRadius: 40,
               border: "none", fontSize: 16, fontWeight: 800, cursor: "pointer", letterSpacing: 0.3
             }}>Shop Fresh Now →</button>
-            <button onClick={() => setPage("auth")} style={{
+            <button onClick={() => setPage("farmerAuth")} style={{
               background: "transparent", color: "#fff", padding: "16px 28px", borderRadius: 40,
               border: "2px solid rgba(255,255,255,0.4)", fontSize: 15, fontWeight: 600, cursor: "pointer"
             }}>Become a Farmer</button>

@@ -42,8 +42,9 @@ export default function App() {
     cart: <CartPage cart={cart} setCart={setCart} setPage={setPage} />,
     checkout: <CheckoutPage cart={cart} setCart={setCart} setPage={setPage} />,
     track: <TrackOrderPage />,
-    auth: <AuthPage setUser={setUser} setPage={setPage} />,
-    profile: user ? <ProfilePage user={user} setUser={setUser} setPage={setPage} /> : <AuthPage setUser={setUser} setPage={setPage} />,
+    auth: <AuthPage key="auth" setUser={setUser} setPage={setPage} />,
+    farmerAuth: <AuthPage key="farmerAuth" setUser={setUser} setPage={setPage} initialRole="farmer" initialMode="register" />,
+    profile: user ? <ProfilePage user={user} setUser={setUser} setPage={setPage} /> : <AuthPage key="auth-profile" setUser={setUser} setPage={setPage} />,
     dashboard: user?.role === "farmer" ? <FarmerDashboard user={user} /> : <AuthPage setUser={setUser} setPage={setPage} />,
     admin: user?.role === "admin" ? <AdminPanel /> : <AuthPage setUser={setUser} setPage={setPage} />,
   };
@@ -84,7 +85,20 @@ export default function App() {
           ].map(col => (
             <div key={col.title}>
               <h4 style={{ color: "#fff", fontWeight: 700, marginBottom: 16, fontSize: 14, textTransform: "uppercase", letterSpacing: 1 }}>{col.title}</h4>
-              {col.links.map(l => <div key={l} style={{ fontSize: 13, color: "#7deba8", marginBottom: 10, cursor: "pointer" }}>{l}</div>)}
+              {col.links.map(l => (
+                <div 
+                  key={l} 
+                  onClick={() => {
+                    if (l === "Become a Farmer" || l === "Sell on Farm2Home") setPage("farmerAuth");
+                    else if (l === "Farmer Dashboard") setPage("dashboard");
+                    else if (l === "Track Order") setPage("track");
+                    else if (col.title === "Shop") setPage("products");
+                  }}
+                  style={{ fontSize: 13, color: "#7deba8", marginBottom: 10, cursor: "pointer" }}
+                >
+                  {l}
+                </div>
+              ))}
             </div>
           ))}
         </div>
