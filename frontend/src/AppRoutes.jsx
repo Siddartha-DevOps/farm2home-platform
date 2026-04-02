@@ -9,7 +9,7 @@ import { ToastProvider } from './components/common/Toast';
 import PrivateRoute from './components/common/PrivateRoute';
 
 // ── Existing pages ─────────────────────────────────────────────────────────────
-import CartPage      from './pages/Cart/CartPage';
+import CartPage      from './pages/cart/CartPage';
 import CheckoutPage  from './pages/Checkout/CheckoutPage';
 import OrdersPage    from './pages/Orders/OrdersPage';
 
@@ -20,12 +20,12 @@ import DemandAlertsPage    from './pages/farmer/DemandAlerts/DemandAlertsPage';
 
 // ── Buyer App ─────────────────────────────────────────────────────────────────
 import BulkOrderPage         from './pages/buyer/BulkOrder/BulkOrderPage';
-import SubscriptionsPage     from './pages/buyer/Subscriptions/SubscriptionsPage';
+import SubscriptionsPage     from './pages/buyer/SubscriptionsPage';
 import DeliveryTrackingPage  from './pages/buyer/DeliveryTracking/DeliveryTrackingPage';
 
 // ── Admin Dashboard ───────────────────────────────────────────────────────────
-import FarmerVerificationPage  from './pages/admin/FarmerVerification/FarmerVerificationPage';
-import AnalyticsDashboard      from './pages/admin/Analytics/AnalyticsDashboard';
+import FarmerVerificationPage  from './pages/admin/FarmerVerificationPage';
+import AnalyticsDashboard      from './pages/admin/AnalyticsDashboard';
 
 export default function AppRoutes() {
   return (
