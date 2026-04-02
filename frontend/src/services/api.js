@@ -82,4 +82,66 @@ export const reviewAPI = {
   delete: (productId, reviewId) => api.delete(`/products/${productId}/reviews/${reviewId}`),
 };
 
+// frontend/src/services/api.additions.js
+// ADD THESE to your existing frontend/src/services/api.js file
+
+// ── Farmer Onboarding ─────────────────────────────────────────────────────────
+export const farmerOnboardingAPI = {
+  getStatus:  ()     => api.get('/farmer/onboarding'),
+  step1:      (data) => api.post('/farmer/onboarding/step1', data),
+  step2:      (data) => api.post('/farmer/onboarding/step2', data),
+  step3:      (data) => api.post('/farmer/onboarding/step3', data),
+  addBank:    (data) => api.post('/farmer/onboarding/bank', data),
+};
+
+// ── Demand Alerts ─────────────────────────────────────────────────────────────
+export const demandAlertAPI = {
+  getAll:       (params) => api.get('/demand-alerts', { params }),
+  create:       (data)   => api.post('/demand-alerts', data),
+  respond:      (id, data) => api.post(`/demand-alerts/${id}/respond`, data),
+  acceptResponse: (alertId, responseId, action) =>
+    api.patch(`/demand-alerts/${alertId}/responses/${responseId}`, { action }),
+  getMyResponses: () => api.get('/demand-alerts/my-responses'),
+};
+
+// ── Subscriptions ─────────────────────────────────────────────────────────────
+export const subscriptionAPI = {
+  getAll:  ()     => api.get('/subscriptions'),
+  create:  (data) => api.post('/subscriptions', data),
+  pause:   (id, pauseUntil) => api.patch(`/subscriptions/${id}/pause`, { pauseUntil }),
+  resume:  (id)   => api.patch(`/subscriptions/${id}/resume`),
+  cancel:  (id)   => api.delete(`/subscriptions/${id}`),
+};
+
+// ── Delivery Tracking ─────────────────────────────────────────────────────────
+export const deliveryTrackingAPI = {
+  getByOrder:     (orderId) => api.get(`/delivery/${orderId}`),
+  updateStatus:   (orderId, status, location) => api.patch(`/delivery/${orderId}/status`, { status, ...location }),
+  verifyOtp:      (orderId, otp)  => api.post(`/delivery/${orderId}/verify-otp`, { otp }),
+  updateLocation: (orderId, lat, lng) => api.patch(`/delivery/${orderId}/live-location`, { lat, lng }),
+};
+
+// ── Bulk Orders ───────────────────────────────────────────────────────────────
+export const bulkOrderAPI = {
+  getAll:        (params) => api.get('/bulk-orders', { params }),
+  create:        (data)   => api.post('/bulk-orders', data),
+  negotiate:     (id, message) => api.post(`/bulk-orders/${id}/negotiate`, { message }),
+  assignFarmers: (id, assignments) => api.patch(`/bulk-orders/${id}/assign-farmers`, { assignments }),
+  farmerRespond: (id, action, notes) => api.patch(`/bulk-orders/${id}/farmer-response`, { action, notes }),
+};
+
+// ── Admin ─────────────────────────────────────────────────────────────────────
+export const adminAPI = {
+  getFarmers:       (params) => api.get('/admin/farmers', { params }),
+  verifyFarmer:     (profileId, action, note) => api.patch(`/admin/farmers/${profileId}/verify`, { action, note }),
+  getProducts:      (params) => api.get('/admin/products', { params }),
+  moderateProduct:  (id, action, reason) => api.patch(`/admin/products/${id}/moderate`, { action, reason }),
+  getLogistics:     () => api.get('/admin/logistics'),
+  assignDelivery:   (orderId, data) => api.patch(`/admin/logistics/${orderId}/assign`, data),
+  getPayments:      (params) => api.get('/admin/payments', { params }),
+  refundOrder:      (orderId) => api.post(`/admin/payments/${orderId}/refund`),
+  getAnalytics:     (period) => api.get(`/admin/analytics?period=${period}`),
+};
+
+
 export default api;
